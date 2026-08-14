@@ -1,0 +1,22 @@
+server:
+  port: ${SERVER_PORT:18080}
+
+spring:
+  application:
+    name: semantic-map-demo
+  jackson:
+    default-property-inclusion: non_null
+
+semantic-demo:
+  data-root: ${SEMANTIC_DEMO_DATA_ROOT:./data}
+  # TRANSFER 没有平面长度，使用固定权重参与最短路径选择，不计入步行距离。
+  transfer-cost: ${SEMANTIC_DEMO_TRANSFER_COST:20}
+  embedding:
+    # 地址为空时沿用本地规则检索；配置地址后启用 Ollama 混合语义召回。
+    base-url: ${OLLAMA_BASE_URL:}
+    model: ${OLLAMA_EMBEDDING_MODEL:qwen3-embedding:0.6b}
+    dimensions: ${OLLAMA_EMBEDDING_DIMENSIONS:1024}
+    batch-size: ${OLLAMA_EMBEDDING_BATCH_SIZE:64}
+    min-score: ${OLLAMA_EMBEDDING_MIN_SCORE:0.45}
+    connect-timeout: ${OLLAMA_CONNECT_TIMEOUT:3s}
+    request-timeout: ${OLLAMA_REQUEST_TIMEOUT:60s}

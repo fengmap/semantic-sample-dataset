@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>北京蜂鸟视图 · 空间语义地图</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<div class="app-shell">
+    <header class="topbar">
+        <div class="brand-block">
+            <span class="brand-mark">S</span>
+            <div>
+                <div class="eyebrow">FMAP SEMANTIC EXPERIENCE</div>
+                <h1>北京蜂鸟视图空间语义地图</h1>
+            </div>
+        </div>
+        <div class="data-badge">
+            <span class="status-dot"></span>
+            <span id="datasetSummary">正在加载 911907</span>
+        </div>
+    </header>
+
+    <main class="workspace">
+        <aside class="sidebar">
+            <section class="panel search-panel">
+                <div class="section-label">语义检索</div>
+                <div class="search-box">
+                    <input id="searchInput" autocomplete="off" placeholder="输入名称或自然语言需求">
+                    <button id="searchButton" title="搜索">⌕</button>
+                </div>
+                <div class="quick-tags">
+                    <button data-keyword="最近的咨询台在哪">咨询台</button>
+                    <button data-keyword="洗手间">洗手间</button>
+                    <button data-keyword="想找会员中心">会员中心</button>
+                </div>
+                <div id="searchNotice" class="search-notice hidden"></div>
+                <div id="searchResults" class="result-list empty-hint">输入名称开始检索</div>
+            </section>
+
+            <section class="panel route-panel">
+                <div class="section-label">任务路线</div>
+                <div class="endpoint">
+                    <span class="endpoint-icon start">起</span>
+                    <div>
+                        <small>起点</small>
+                        <strong id="startName">请选择实体</strong>
+                    </div>
+                    <button id="clearStart" class="icon-button" aria-label="清除起点">×</button>
+                </div>
+                <div class="endpoint-line"></div>
+                <div class="endpoint">
+                    <span class="endpoint-icon target">终</span>
+                    <div>
+                        <small>终点</small>
+                        <strong id="targetName">请选择实体</strong>
+                    </div>
+                    <button id="clearTarget" class="icon-button" aria-label="清除终点">×</button>
+                </div>
+                <button id="routeButton" class="primary-button" disabled>规划步行路线</button>
+                <p class="inference-tip">店铺接入点由代表点吸附至最近 WALK 节点，属于 Demo 推导结果。</p>
+            </section>
+
+            <section id="detailPanel" class="panel detail-panel hidden">
+                <div class="section-label">当前实体</div>
+                <h2 id="detailName"></h2>
+                <div id="detailMeta" class="meta-row"></div>
+                <div class="detail-actions">
+                    <button id="setStartButton">设为起点</button>
+                    <button id="setTargetButton">设为终点</button>
+                </div>
+                <div class="subsection-title">同层附近</div>
+                <div id="nearbyResults" class="nearby-list"></div>
+            </section>
+        </aside>
+
+        <section class="map-stage">
+            <div class="map-toolbar">
+                <div id="floorTabs" class="floor-tabs"></div>
+                <div class="map-actions">
+                    <label><input id="pathToggle" type="checkbox" checked> PATH</label>
+                    <button id="resetViewButton">适配视图</button>
+                </div>
+            </div>
+            <div id="mapViewport" class="map-viewport">
+                <canvas id="mapCanvas"></canvas>
+                <div class="map-legend">
+                    <span><i class="space"></i>空间</span>
+                    <span><i class="facility"></i>设施</span>
+                    <span><i class="connector"></i>跨层设施</span>
+                    <span><i class="path"></i>PATH</span>
+                    <span><i class="route"></i>路线</span>
+                </div>
+                <div id="mapHint" class="map-hint">滚轮缩放 · 拖拽平移 · 点击实体</div>
+                <div id="mapLoading" class="map-loading">正在加载楼层语义数据…</div>
+            </div>
+
+            <section id="routeResult" class="route-result hidden">
+                <div class="route-summary">
+                    <div>
+                        <div class="section-label">路线结果</div>
+                        <h2 id="routeTitle"></h2>
+                    </div>
+                    <div class="route-metrics">
+                        <strong id="routeDistance">0 m</strong>
+                        <span id="routeFloors">同层</span>
+                    </div>
+                </div>
+                <div id="routeSteps" class="route-steps"></div>
+            </section>
+        </section>
+    </main>
+</div>
+<div id="toast" class="toast"></div>
+<script src="/app.js"></script>
+</body>
+</html>

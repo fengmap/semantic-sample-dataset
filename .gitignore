@@ -1,0 +1,25 @@
+.DS_Store
+**/.DS_Store
+__MACOSX/
+**/__MACOSX/
+Thumbs.db
+Desktop.ini
+
+.idea/
+**/.idea/
+.vscode/
+**/.vscode/
+*.iml
+*.swp
+*.swo
+
+**/target/
+
+.env
+.env.*
+!.env.example
+*.log
+
+# Release 本地资产：ZIP 上传到 GitHub Release，解压目录不进入 Git 历史。
+/Sample-data-test v0.2/
+/Sample-data-test v0.2.zip

@@ -1,0 +1,89 @@
+{
+  "schemaVersion" : "0.2",
+  "format" : "FMAP_SEMANTIC_MAP",
+  "packageProfile" : "DISTRIBUTION",
+  "mapId" : "911907",
+  "semanticId" : "map:911907",
+  "coordinateReferenceSystem" : {
+    "authority" : "EPSG",
+    "code" : 3857,
+    "name" : "WGS 84 / Pseudo-Mercator",
+    "axisOrder" : [ "x", "y" ],
+    "unit" : "metre"
+  },
+  "floors" : [ {
+    "name" : "B1",
+    "gid" : 1,
+    "entityCount" : 438
+  }, {
+    "name" : "F1",
+    "gid" : 2,
+    "entityCount" : 593
+  }, {
+    "name" : "F2",
+    "gid" : 3,
+    "entityCount" : 388
+  }, {
+    "name" : "F3",
+    "gid" : 4,
+    "entityCount" : 391
+  }, {
+    "name" : "F4",
+    "gid" : 5,
+    "entityCount" : 329
+  }, {
+    "name" : "F5",
+    "gid" : 6,
+    "entityCount" : 417
+  }, {
+    "name" : "F6",
+    "gid" : 7,
+    "entityCount" : 92
+  } ],
+  "recordCounts" : {
+    "entities" : 2648,
+    "relations" : 3047,
+    "navigationNodes" : 1437,
+    "navigationEdges" : 3426
+  },
+  "entityCounts" : {
+    "FLOOR" : 7,
+    "SPACE" : 864,
+    "FACILITY" : 94,
+    "CONNECTOR" : 57,
+    "NAVIGATION_PATH" : 1626
+  },
+  "relationCounts" : {
+    "CONTAINS" : 7,
+    "LOCATED_ON" : 2641,
+    "LOCATED_IN" : 94,
+    "CONNECTED_TO" : 131,
+    "CONNECTS_FLOOR" : 174,
+    "SERVES_SPACE" : 0
+  },
+  "files" : [ {
+    "path" : "entities.json",
+    "mediaType" : "application/json",
+    "recordCount" : 2648,
+    "sizeBytes" : 1581526,
+    "sha256" : "9e0a735871e50a001640130b7c22cae5082f9c641d3acc0b69b75ae86e5f31b1"
+  }, {
+    "path" : "relations.jsonl",
+    "mediaType" : "application/x-ndjson",
+    "recordCount" : 3047,
+    "sizeBytes" : 494093,
+    "sha256" : "64d445cba7e28445f7b71ef58d060ab1a96eeee817c26337b0c505bf521844ba"
+  }, {
+    "path" : "navigation/nodes.jsonl",
+    "mediaType" : "application/x-ndjson",
+    "recordCount" : 1437,
+    "sizeBytes" : 329843,
+    "sha256" : "d7c99e813f05d781e6273f938b0a5bef231f1c24ef378722020892758b0a35a0"
+  }, {
+    "path" : "navigation/edges.jsonl",
+    "mediaType" : "application/x-ndjson",
+    "recordCount" : 3426,
+    "sizeBytes" : 1242326,
+    "sha256" : "a4af16655c4852f95c8d8615406ed69b5fcee3b64f1be601518cd24e4c717b16"
+  } ]
+}

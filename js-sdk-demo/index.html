@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>地图切换</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <script src="./libs/layui/layui.js"></script>
+    <script src="./libs/jquery-3.6.1.min.js"></script>
+    <script src="./libs/FMUI.js"></script>
+    <link rel="stylesheet" href="./libs/layui/css/layui.css">
+    <link rel="stylesheet" href="./libs/index.css">
+    <link rel="stylesheet" href="./libs/toolBarStyle.css">
+</head>
+
+<body>
+    <div class="layui-container">
+        <button class="layui-btn dropdown-toggle">&#38544;&#34255;&#21015;&#34920;</button>
+    </div>
+    <div id="fengmap"></div>
+</body>
+<script src="https://developer.fengmap.com/fmAPI/demos/libs/js/dispose.js"></script>
+<script type="module">
+    import { FMMap } from './libs/fengmap.map.min.js';
+    import {
+        FMControlPosition,
+        FMCompass,
+        FMZoomBar,
+        FMToolbar,
+        FMScaleBar
+    } from './libs/fengmap.plugin.ui.min.js';
+    import { FMNaviWalkAnalyser } from './libs/fengmap.analyser.min.js';
+    import { FMNavigationWalk } from './libs/fengmap.plugin.navi.min.js';
+    let mapList = [
+        {
+            "id": '911907',
+            "title": "911907"
+        },
+        {
+            "id": '123456',
+            "title": "123456"
+        },
+        {
+            "id": '272862',
+            "title": "272862"
+        },
+        {
+            "id": '709246',
+            "title": "709246"
+        },
+        {
+            "id": '910807',
+            "title": "910807"
+        }
+    ];
+    let map = null;
+    let scrollFloorControl = null;
+    let analyser = null;
+    let navi = null;
+    let routeStep = 0;
+    let routeStartPoint = null;
+    let routeEndPoint = null;
+    let currentThemeID = "2001";
+    let currentMapID = (() => {
+        const params = new URLSearchParams(window.location.search);
+        const urlMapID = params.get('mapId');
+        const validMapID = mapList.some(item => item.id === urlMapID) ? urlMapID : mapList[0].id;
+        return validMapID;
+    })();
+    let currentZoom = 20;
+    const options = {
+        appName: '蜂鸟研发SDK_2_0',
+        key: '57c7f309aca507497d028a9c00207cf8',
+        mapID: currentMapID,
+        themeID: currentThemeID,
+        mapURL: './data/maps/',
+        themeURL: './data/themes/',
+        tile: false,
+        container: document.getElementById('fengmap'),
+        logarithmicDepthBuffer: true,
+        tiltAngle: 90,
+        highlightPicker: []
+    };
+    function syncMapIdToUrl(mapID) {
+        const url = new URL(window.location.href);
+        url.searchParams.set('mapId', mapID);
+        window.history.replaceState({}, '', url.toString());
+    }
+    function getRoutePointByClick(event) {
+        const source = event?.coords;
+        if (!source) return null;
+        return {
+            x: source.x,
+            y: source.y,
+            buildingID: event.buildingID,
+            level: event.level || map?.getLevel()
+        };
+    }
+    function resetRoutePlanner() {
+        routeStep = 0;
+        routeStartPoint = null;
+        routeEndPoint = null;
+        if (navi) navi.clearAll();
+        console.log('清除路线');
+    }
+    /* 初始化地图 */
+    function InitMap(options) {
+        const promise = new Promise((resolve, reject) => {
+            if (map != null) {
+                map.dispose(() => {
+                    map = null;
+                    init(resolve);
+                });
+            } else {
+                init(resolve);
+            }
+
+        });
+        return promise;
+        function init(resolve) {
+            options.mapID = currentMapID;
+            map = new FMMap(options);
+            window.map = map;
+            map.on('loaded', function () {
+                resolve('地图初始化完成！');
+                syncMapIdToUrl(currentMapID);
+
+                analyser = new FMNaviWalkAnalyser({ map: map }, () => {
+                    navi = new FMNavigationWalk({
+                        map: map,
+                        analyser: analyser,
+                    });
+                });
+
+                // 当前层自适应
+                const bound = map.getFloor(map.getLevel()).getBound();
+                map.setFitView(bound);
+
+                let scrollFloorCtlOpt = {
+                    position: FMControlPosition.RIGHT_TOP,
+                    floorButtonCount: 5,
+                    offset: {
+                        x: -20,
+                        y: 80
+                    },
+                    viewModeControl: true,
+                    floorModeControl: true,
+                    needAllLayerBtn: true
+
+                };
+                if (scrollFloorControl !== null) {
+                    scrollFloorControl.remove();
+                }
+                scrollFloorControl = new FMToolbar(scrollFloorCtlOpt);
+                scrollFloorControl.addTo(map)
+            });
+
+            map.on('click', function (event) {
+                const routePoint = getRoutePointByClick(event);
+                if (!routePoint) {
+                    return;
+                }
+
+                if (routeStep === 0) {
+                    routeStartPoint = routePoint;
+                    routeStep = 1;
+                    navi?.setStartPoint({
+                        ...routeStartPoint,
+                        url: 'https://developer.fengmap.com/fmAPI/images/start.png',
+                        size: 32,
+                        height: 0.5
+                    });
+                    console.log('起点：', routePoint);
+                    return;
+                }
+
+                if (routeStep === 1) {
+                    routeEndPoint = routePoint;
+                    routeStep = 2;
+                    navi?.setDestPoint({
+                        ...routeEndPoint,
+                        url: 'https://developer.fengmap.com/fmAPI/images/end.png',
+                        size: 32,
+                        height: 0.5
+                    });
+                    navi?.route({}, () => {
+                        navi.drawNaviLine();
+                    }, (err) => {
+                        alert('路线规划失败，错误码：' + err);
+                    });
+                    console.log('终点：', routePoint);
+                    return;
+                }
+
+                resetRoutePlanner();
+            });
+        }
+    };
+    function InitAnotherTheme(themeID) {
+        currentZoom = map.getZoom();
+        currentThemeID = themeID;
+        updateMap();
+        //map.setTheme(themeID)
+    }
+    function InitAnotherMap(mapID) {
+        currentZoom = map ? map.getZoom() : currentZoom;
+        currentMapID = mapList.some(item => item.id === mapID) ? mapID : mapList[0].id;
+        window.currentMapID = currentMapID;
+        updateMap();
+    }
+    function updateMap() {
+        options.themeID = currentThemeID;
+        options.mapID = currentMapID;
+        options.mapZoom = currentZoom;
+        window.currentMapID = currentMapID;
+        syncMapIdToUrl(currentMapID);
+        UI.Loading();
+        InitMap(options).then((info) => {
+            console.log(info);
+            UI.Completed();
+            const listItem = $('.fm-map-dropdown .layui-menu li');
+            listItem.removeClass('is-selected');
+            listItem.filter((_, el) => $(el).data('map-id') === currentMapID).addClass('is-selected');
+        });
+    }
+    UI.Init().then(() => {
+        UI.Loading();
+        return InitMap(options);
+    }).then(() => {
+        UI.Completed();
+    });;
+    window.currentMapID = currentMapID;
+    Object.assign(window, { map, mapList, InitAnotherMap, InitAnotherTheme, currentMapID });
+</script>
+
+</html>
