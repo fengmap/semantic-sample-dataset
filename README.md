@@ -1,7 +1,8 @@
 # 蜂鸟视图室内语义化地图测试数据集
 
-> 版本：v1.0  
-> 发布日期：2026 年 8 月 14 日  
+> 数据集版本：v1.0<br>
+> 语义格式规范版本：v0.2<br>
+> 发布日期：2026 年 8 月 14 日<br>
 > 数据规模：5 张室内地图、37 个楼层  
 > 使用范围：仅限非商业性质的学习、研究、教学和技术验证
 
@@ -22,11 +23,11 @@
 | 项目 | 内容 |
 | --- | --- |
 | 数据集名称 | 蜂鸟视图室内语义化地图测试数据集 |
-| 首次发布版本 | v1.0 |
+| 数据集版本 | v1.0 |
 | 发布日期 | 2026 年 8 月 14 日 |
 | 测试场景 | 5 张真实室内地图 |
 | 楼层总数 | 37 层 |
-| 语义结构版本 | v0.2 |
+| 语义格式规范版本 | v0.2 |
 | 地图类型 | 大型商业空间室内地图 |
 | 主要内容 | 语义化结构测试包、SDK Web Demo、逐层地图截图、数据集使用 demo |
 | 主要用途 | 格式解析、空间查询、地图展示、SDK 集成、导航与算法验证 |
@@ -41,7 +42,7 @@
 公开测试包将标准语义数据与楼层截图分开存放，避免展示资源进入标准语义地图目录：
 
 ```text
-Sample-data-test v0.2/
+fengmap-semantic-sample-dataset-v1.0/
 ├── semantic/
 │   └── {mapId}/
 │       ├── manifest.json
@@ -86,7 +87,7 @@ Demo 源码、5 张 `.fmap` 测试地图及配套主题文件位于 [`js-sdk-dem
 
 ### 4. 基于测试包的演示 demo
 
-[`java-semantic-map-demo/`](./java-semantic-map-demo/) 是一个基于标准语义地图 v0.2 测试包构建的独立 Java 演示程序。它使用 Spring Boot 读取 `DISTRIBUTION` 数据，直接展示语义结构在空间查询、自然语言检索和路径规划中的使用方式。
+[`java-semantic-map-demo/`](./java-semantic-map-demo/) 是一个基于标准语义地图 v0.2 测试包构建的独立 Java 演示程序。它使用 Spring Boot 读取 `SampleDataSet` 数据，直接展示语义结构在空间查询、自然语言检索和路径规划中的使用方式。
 
 主要演示能力包括：
 
@@ -120,7 +121,7 @@ Demo 源码、5 张 `.fmap` 测试地图及配套主题文件位于 [`js-sdk-dem
 
 本仓库公开提供 5 张地图的语义化测试包、37 张楼层截图、JS SDK Demo 和 Java 语义地图 Demo：
 
-- [下载语义地图测试包（v0.2）](https://github.com/fengmap/semantic-sample-dataset/releases/download/v1.0/Sample-data-test%20v0.2.zip)
+- [下载语义地图测试数据集（v1.0，语义格式规范 v0.2）](https://github.com/fengmap/semantic-sample-dataset/releases/download/v1.0/fengmap-semantic-sample-dataset-v1.0.zip)
 - [查看 JS SDK Demo](./js-sdk-demo/)
 - [查看 Java 语义地图 Demo](./java-semantic-map-demo/)
 
@@ -167,4 +168,4 @@ Demo 源码、5 张 `.fmap` 测试地图及配套主题文件位于 [`js-sdk-dem
 - 公布 5 张室内地图、37 个楼层的总体规模；
 - 发布标准语义输出 v0.2 说明；
 - 提供 SDK Web Demo、Demo 程序代码和逐层地图截图；
-- 建立标准语义化结构测试包的联系获取方式。
+- 提供标准语义化结构测试包的公开下载附件。
