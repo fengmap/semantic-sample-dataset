@@ -141,7 +141,7 @@ Demo 源码、5 张 `.fmap` 测试地图及配套主题文件位于 [`js-sdk-dem
 
 如需了解或获取更多相关数据，请通过以下方式联系蜂鸟视图：
 
-- 联系邮箱：[developer@fengma.com](mailto:developer@fengma.com)
+- 联系邮箱：[marcom@fengmap.com](mailto:marcom@fengmap.com)
 - 400 电话：[400-680-0432](tel:4006800432)
 
 ## 非商业使用声明
