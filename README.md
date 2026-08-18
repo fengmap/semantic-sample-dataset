@@ -10,6 +10,8 @@
 
 蜂鸟视图室内语义化地图 — 测试数据集 是一套面向室内空间理解、空间关系分析、地图 SDK 集成和导航应用验证的测试数据集。
 
+希望为室内地图语义化提供一份可以实际解析、运行和验证的公共样例，让相关讨论不只停留在概念层面。开发者可以基于真实室内空间数据，验证空间实体、关系、导航拓扑，以及地图与 AI、机器人等应用结合的可行性。
+
 数据集选取 5 个真实大型商业空间，共覆盖 37 个楼层。每个测试场景包含标准语义化结构测试包、使用蜂鸟地图 SDK 加载地图的 Web Demo，以及各楼层地图截图。
 
 本数据集由蜂鸟视图基于自主采集的室内地图数据进行整理、加工和语义化生产，主要用于验证室内地图从几何数据向实体、关系和导航拓扑结构转换的可用性，并为开发者提供格式解析、地图展示和应用集成参考。
@@ -17,6 +19,16 @@
 ![从室内地图数据到空间语义及 SDK 应用的整体流程](./fmap-spatial-semantic-value-map.png)
 
 *图：从原始室内地图数据出发，形成可理解、可查询、可执行的空间语义结构，并与现有地图 SDK 及 AI、机器人应用衔接。*
+
+## Quick Start
+
+准备 Python 3、JDK 17 和 Maven 3.8+，克隆仓库后，在两个终端中分别执行后两条命令：
+
+```bash
+git clone https://github.com/fengmap/semantic-sample-dataset.git
+(cd semantic-sample-dataset/js-sdk-demo && python3 -m http.server 8080)  # http://localhost:8080
+(cd semantic-sample-dataset/java-semantic-map-demo && mvn spring-boot:run)  # http://localhost:18080
+```
 
 ## 数据集概览
 
